@@ -1,0 +1,56 @@
+# --- Unity generated caches ---
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+UserSettings/
+MemoryCaptures/
+Recordings/
+sysinfo.txt
+
+# --- Unity project files you don't need in git ---
+*.userprefs
+*.pidb
+*.booproj
+*.svd
+*.pdb
+*.mdb
+*.opendb
+*.VC.db
+*.suo
+*.tmp
+*.unityproj
+*.csproj
+*.sln
+*.stacktrace
+*.log
+
+# Addressables (optional: ignore built content; keep settings)
+Assets/StreamingAssets/aa/**
+
+# --- Platform/Android ---
+.gradle/
+**/.gradle/
+*.aab
+*.apk
+*.keystore
+*.jks
+
+# --- IDEs/Editors ---
+.vscode/
+!.vscode/extensions.json
+!.vscode/settings.json
+!.vscode/launch.json
+!.vscode/tasks.json
+.vs/
+.idea/
+*.iml
+*.ide
+*.ipr
+*.iws
+
+# --- OS cruft ---
+.DS_Store
+Thumbs.db
