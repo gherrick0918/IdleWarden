@@ -3,11 +3,13 @@ using UnityEngine;
 public class CombatSimulator : MonoBehaviour {
     [Header("Tuning")]
     public double GoldPerSecondBase = 1.0;
+    public double GoldPerDamage = 0.1;
     public int FullRateHoursCap = 8;
     public double PostCapMultiplier = 0.5;
 
     private double _goldBuffer;
     private SaveData _save;
+    private StatBlock _stats = new StatBlock { STR = 10, DEX = 10, CRIT = 0.1, ATKSPD = 1.0 };
 
     void OnEnable() {
         _save = SaveService.LoadOrNew();
@@ -24,8 +26,8 @@ public class CombatSimulator : MonoBehaviour {
     }
 
     void HandleTick(float dt) {
-        // TODO: replace with actual DPS/clear logic; placeholder uses a flat GPS.
-        double gps = GoldPerSecondBase;
+        double dps = _stats.ComputeDPS();
+        double gps = dps * GoldPerDamage;
         _goldBuffer += gps * dt;
         if (_goldBuffer >= 1.0) {
             var whole = (long)_goldBuffer;
