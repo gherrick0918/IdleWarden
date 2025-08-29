@@ -8,6 +8,8 @@
 UserSettings/
 MemoryCaptures/
 Recordings/
+.utmp/
+Export/
 sysinfo.txt
 
 # --- Unity project files you don't need in git ---
