@@ -7,5 +7,12 @@ public class ItemDef : ScriptableObject {
     public string Id;
     public ItemSlot Slot;
     public Sprite Sprite;
-    // Future: stat modifiers, rarity, set bonuses, etc.
+    [Tooltip("Flat STR bonus")]
+    public int str;
+    [Tooltip("Flat DEX bonus")]
+    public int dex;
+    [Tooltip("Average damage bonus, e.g. 0.10 = +10%")]
+    public float crit;
+    [Tooltip("Attack speed bonus (multiplicative), e.g. 0.15 = +15%")]
+    public float atkspd;
 }

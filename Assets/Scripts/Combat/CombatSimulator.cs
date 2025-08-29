@@ -9,13 +9,25 @@ public class CombatSimulator : MonoBehaviour {
 
     private double _goldBuffer;
     private SaveData _save;
-    private StatBlock _stats = new StatBlock { STR = 10, DEX = 10, CRIT = 0.1, ATKSPD = 1.0 };
+    private StatBlock baseStats = new StatBlock { STR = 10, DEX = 10, CRIT = 0.10, ATKSPD = 1.2 };
+    private StatBlock finalStats;
+    private Loadout currentLoadout;
+
+    [SerializeField] private ItemDef devHead, devBody, devWeapon, devOffhand;
+    [SerializeField] private bool overwriteSavedOnStart = true;
 
     void OnEnable() {
         _save = SaveService.LoadOrNew();
         // Offline catch-up
         var deltaSec = Mathf.Max(0, (int)(SaveService.NowUnix() - _save.lastSavedUnix));
         SimulateOffline(deltaSec);
+
+        currentLoadout = LoadoutStorage.Load();
+        if (overwriteSavedOnStart || (currentLoadout.Head == null && currentLoadout.Body == null && currentLoadout.Weapon == null && currentLoadout.Offhand == null)) {
+            currentLoadout = new Loadout { Head = devHead, Body = devBody, Weapon = devWeapon, Offhand = devOffhand };
+            LoadoutStorage.Save(currentLoadout);
+        }
+        finalStats = currentLoadout.BuildFinalStats(baseStats);
 
         GameClock.OnTick += HandleTick;
     }
@@ -26,7 +38,7 @@ public class CombatSimulator : MonoBehaviour {
     }
 
     void HandleTick(float dt) {
-        double dps = _stats.ComputeDPS();
+        double dps = finalStats.ComputeDPS();
         double gps = dps * GoldPerDamage;
         _goldBuffer += gps * dt;
         if (_goldBuffer >= 1.0) {
@@ -42,6 +54,7 @@ public class CombatSimulator : MonoBehaviour {
     void Persist() {
         _save.lastSavedUnix = SaveService.NowUnix();
         SaveService.Save(_save);
+        LoadoutStorage.Save(currentLoadout);
     }
 
     void SimulateOffline(int seconds) {
@@ -52,4 +65,10 @@ public class CombatSimulator : MonoBehaviour {
     }
 
     public double GetGold() => _save?.gold ?? 0;
+
+    public void RecomputeStats(Loadout l) {
+        currentLoadout = l;
+        finalStats = currentLoadout.BuildFinalStats(baseStats);
+        LoadoutStorage.Save(currentLoadout);
+    }
 }
