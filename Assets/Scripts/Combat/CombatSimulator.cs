@@ -99,7 +99,7 @@ public class CombatSimulator : MonoBehaviour
 
     // --- helpers for UI/Debug ---
     public double GetGold() => _save?.gold ?? 0;
-    public float DebugDPS() => (float)((finalStats ?? baseStats).ComputeDPS());
+    public float DebugDPS() => (float)((finalStats ?? baseStats).ComputeDPS()); // used by UI
 
     // Called by UI when equipment changes later
     public void RecomputeStats(Loadout l)

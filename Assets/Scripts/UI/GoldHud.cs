@@ -7,7 +7,8 @@ public class GoldHud : MonoBehaviour {
 
     void Update() {
         if (Simulator && GoldText) {
-            GoldText.text = $"Gold: {Simulator.GetGold():N0}";
+            var dps = Simulator.DebugDPS();
+            GoldText.text = $"Gold: {Simulator.GetGold():N0}\nDPS: {dps:F1}\nGPS: {dps * Simulator.goldPerDamage:F2}";
         }
     }
 }
